@@ -39,11 +39,10 @@
                 });
 
                 this.viewport = alchemy('todo.ui.Viewport').brew({
-                    state: this.state
+                    root: document.getElementById('todoapp')
                 });
 
-                this.tree = h();
-                this.rootNode = document.getElementById('todoapp');
+                this.fpsEl = document.getElementById('fps');
             },
 
 
@@ -53,14 +52,9 @@
             },
 
             draw: function (params) {
-                var newTree = this.viewport.render(params.state);
-                if (!newTree) {
-                    return;
-                }
+                this.viewport.draw(params.state);
 
-                var patches = this.tree ? diff(this.tree, newTree) : newTree;
-                this.rootNode = patch(this.rootNode, patches);
-                this.tree = newTree;
+                this.fpsEl.innerHTML = params.fps;
             }
         }
     });

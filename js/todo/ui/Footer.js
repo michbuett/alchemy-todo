@@ -2,7 +2,6 @@
     'use strict';
 
     var alchemy = require('./../../alchemy');
-    var h = virtualDom.h;
 
     /**
      * @class
@@ -10,17 +9,32 @@
      */
     alchemy.formula.add({
         name: 'todo.ui.Footer',
+        extend: 'todo.ui.Prima',
 
         overrides: {
             /** @lends todo.ui.Footer.prototype */
 
-            render: function (state) {
-                var todos = state.get('todos');
+            selector: '#footer',
+
+            updateState: function (appState) {
+                var todos = appState.get('todos');
                 var numOfCompleted = todos.reduce(function (num, todo) {
                     return todo.completed ? num + 1 : num;
                 }, 0);
                 var numOfUnCompleted = todos.length - numOfCompleted;
-                var route = state.get('route');
+
+                this.state = this.state.set({
+                    completed: numOfCompleted,
+                    uncompleted: numOfUnCompleted,
+                    route: appState.get('route'),
+                });
+            },
+
+            render: function (state) {
+                var h = this.h;
+                var numOfCompleted = this.state.get('completed');
+                var numOfUnCompleted = this.state.get('uncompleted');
+                var route = this.state.get('route');
 
                 return h('#footer', null, [
                     h('span#todo-count', null, [
@@ -38,6 +52,7 @@
 
             createFilter: function (currentRoute, filterRoute, text) {
                 var selected = (currentRoute === filterRoute);
+                var h = this.h;
                 return h('li', null, h('a' + (selected ? '.selected' : ''), {
                     href: filterRoute
                 }, text));

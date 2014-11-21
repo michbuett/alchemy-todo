@@ -2,7 +2,6 @@
     'use strict';
 
     var alchemy = require('./../../alchemy');
-    var h = virtualDom.h;
 
     /**
      * @class
@@ -10,6 +9,7 @@
      */
     alchemy.formula.add({
         name: 'todo.ui.TodoList',
+        extend: 'todo.ui.Prima',
 
         requires: [
             'todo.ui.Todo'
@@ -18,24 +18,26 @@
         overrides: {
             /** @lends todo.ui.TodoList.prototype */
 
-            render: function (todos) {
+            selector: '#main',
+
+            updateState: function (appState) {
+                return this.state.set('todos', appState.get('todos'));
+            },
+
+            render: function () {
+                var h = this.h;
+                var todos =  this.state.get('todos');
+
                 return h('#main', null, [
                     h('input#toggle-all', {type: 'checkbox'}),
                     h('label', {htmlFor: 'toggle-all'}, 'Mark all as complete'),
-                    h('ul#todo-list', null, this.renderTodos(todos))
+                    h('ul#todo-list', null, alchemy.each(todos, this.renderTodo, this))
                 ]);
-            },
-
-            renderTodos: function (todos) {
-                var result = [];
-                for (var i = 0; i < todos.length; i++) {
-                    result.push(this.renderTodo(todos[i]));
-                }
-                return result;
             },
 
             renderTodo: function (todo) {
                 var cssClass = '';
+                var h = this.h;
 
                 if (todo.completed) {
                     cssClass += '.completed';
