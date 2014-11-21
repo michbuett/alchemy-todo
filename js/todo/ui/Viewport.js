@@ -22,9 +22,15 @@
 
             init: function () {
                 this.subs = {
-                    header: alchemy('todo.ui.Header').brew(),
-                    todos: alchemy('todo.ui.TodoList').brew(),
-                    footer: alchemy('todo.ui.Footer').brew(),
+                    header: alchemy('todo.ui.Header').brew({
+                        messages: this.messages
+                    }),
+                    todos: alchemy('todo.ui.TodoList').brew({
+                        messages: this.messages
+                    }),
+                    footer: alchemy('todo.ui.Footer').brew({
+                        messages: this.messages
+                    }),
                 };
             },
 

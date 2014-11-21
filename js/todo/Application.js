@@ -16,7 +16,8 @@
         extend: 'alchemy.web.Applicatus',
 
         requires: [
-            'todo.ui.Viewport'
+            'todo.ui.Viewport',
+            'todo.control.Todo'
         ],
 
         overrides: {
@@ -39,10 +40,19 @@
                 });
 
                 this.viewport = alchemy('todo.ui.Viewport').brew({
-                    root: document.getElementById('todoapp')
+                    messages: this.messages,
+                    root: document.getElementById('todoapp'),
                 });
 
                 this.fpsEl = document.getElementById('fps');
+
+                var controller = alchemy('todo.control.Todo').brew();
+                alchemy.each(controller.messages, function (fnName, message) {
+                    this.messages.on(message, function (data) {
+                        var fn = controller[fnName];
+                        this.state = fn.call(null, this.state, data);
+                    }, this);
+                }, this);
             },
 
 
