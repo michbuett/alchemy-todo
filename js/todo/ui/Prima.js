@@ -21,7 +21,36 @@
             return {
                 /** @lends todo.ui.Todo.Prima.prototype */
 
+                /**
+                 * The root node of this component
+                 *
+                 * @property
+                 * @type DomNode
+                 * @private
+                 */
+                root: null,
+
+                /**
+                 * The virtual dom tree created by this component's render method
+                 *
+                 * @property tree
+                 * @type VTree
+                 * @private
+                 */
+                tree: null,
+
+                /**
+                 * The set of subcomponents
+                 *
+                 * @property subs
+                 * @type Object
+                 * @protected
+                 */
+                subs: null,
+
                 constructor: function (cfg) {
+                    _super.constructor.call(this, cfg);
+
                     /**
                      * The internal state for this UI component (the date
                      * model), usually a subset of the application state)
@@ -30,36 +59,7 @@
                      * @type alchemy.core.Immutatio
                      * @private
                      */
-                    this.state = alchemy('Immutatio').brew();
-
-                    /**
-                     * The root node of this component
-                     *
-                     * @property
-                     * @type DomNode
-                     * @private
-                     */
-                    this.root = null;
-
-                    /**
-                     * The virtual dom tree created by this component's render method
-                     *
-                     * @property tree
-                     * @type VTree
-                     * @private
-                     */
-                    this.tree = null;
-
-                    /**
-                     * The set of subcomponents
-                     *
-                     * @property subs
-                     * @type Object
-                     * @protected
-                     */
-                    this.subs = null;
-
-                    _super.constructor.call(this, cfg);
+                    this.state = alchemy('Immutatio').makeImmutable(this.initialState);
                 },
 
 
@@ -134,7 +134,7 @@
                  * @return VTree the new component state
                  */
                 updateState: function (state) {
-                    return this.state;
+                    return state;
                 },
 
                 h: h,

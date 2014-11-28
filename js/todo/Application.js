@@ -2,9 +2,6 @@
     'use strict';
 
     var alchemy = require('./../alchemy');
-    var diff = virtualDom.diff;
-    var patch = virtualDom.patch;
-    var h = virtualDom.h;
 
     /**
      * @class
@@ -24,7 +21,7 @@
             /** @lends todo.Application.prototype */
 
             onLaunch: function () {
-                this.state = alchemy('Immutatio').brew({
+                this.state = alchemy('Immutatio').makeImmutable({
                     route: '#/',
                     todos: [{
                         id: 'foo',

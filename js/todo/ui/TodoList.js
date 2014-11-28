@@ -20,13 +20,9 @@
 
             selector: '#main',
 
-            updateState: function (appState) {
-                return this.state.set('todos', appState.get('todos'));
-            },
-
             render: function () {
                 var h = this.h;
-                var todos =  this.state.get('todos');
+                var todos =  this.state.sub('todos').val();
 
                 return h('#main', null, [
                     h('input#toggle-all', {type: 'checkbox'}),
@@ -35,33 +31,76 @@
                 ]);
             },
 
-            renderTodo: function (todo) {
+            renderTodo: function (todo, index) {
+                var route = this.state.sub('route').val();
+                if (route === '#/completed' && !todo.completed) {
+                    return;
+                }
+
+                if (route === '#/active' && todo.completed) {
+                    return;
+                }
+
+                var messages = this.messages;
                 var cssClass = '';
                 var h = this.h;
 
-                if (todo.completed) {
-                    cssClass += '.completed';
-                }
-
                 if (todo.editing) {
-                    cssClass += '.editing';
+                    cssClass = 'editing';
                 }
 
-                var attr = {
-                    type: 'checkbox'
-                };
-
-                if (todo.checked) {
-                    attr.checked = true;
+                if (todo.completed) {
+                    cssClass = 'completed';
                 }
 
-                return h('li' + cssClass, null, [
+                return h('li', {
+                    key: todo.id,
+                    className: cssClass
+                }, [
                     h('div.view', null, [
-                        h('input.toggle', attr),
-                        h('label', null, todo.text),
-                        h('button.destroy')
+                        h('input.toggle', {
+                            type: 'checkbox',
+                            checked: todo.completed,
+                            onchange: function (ev) {
+                                messages.trigger('todo:update', {
+                                    index: index,
+                                    completed: !todo.completed
+                                });
+                            },
+                        }),
+                        h('label', {
+                            ondblclick: function (ev) {
+                                messages.trigger('todo:update', {
+                                    index: index,
+                                    editing: true,
+                                });
+                            }
+                        }, todo.text),
+                        h('button.destroy', {
+                            onclick: function () {
+                                messages.trigger('todo:delete', {
+                                    index: index
+                                });
+                            }
+                        })
                     ]),
-                    h('input.edit', {value: todo.text})
+                    h('input.edit', {
+                        value: todo.text,
+                        onchange: function (ev) {
+                            if (todo.completed) {
+                                return;
+                            }
+                            var target = ev && ev.target;
+                            if (!target) {
+                                return;
+                            }
+                            messages.trigger('todo:update', {
+                                index: index,
+                                text: target.value,
+                                editing: false,
+                            });
+                        }
+                    })
                 ]);
             }
         }

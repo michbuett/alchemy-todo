@@ -16,8 +16,14 @@
 
             selector: '#footer',
 
+            initialState: {
+                completed: 0,
+                uncompleted: 0,
+                route: ''
+            },
+
             updateState: function (appState) {
-                var todos = appState.get('todos');
+                var todos = appState.sub('todos').val();
                 var numOfCompleted = todos.reduce(function (num, todo) {
                     return todo.completed ? num + 1 : num;
                 }, 0);
@@ -26,15 +32,16 @@
                 this.state = this.state.set({
                     completed: numOfCompleted,
                     uncompleted: numOfUnCompleted,
-                    route: appState.get('route'),
+                    route: appState.sub('route'),
                 });
             },
 
             render: function (state) {
                 var h = this.h;
-                var numOfCompleted = this.state.get('completed');
-                var numOfUnCompleted = this.state.get('uncompleted');
-                var route = this.state.get('route');
+                var numOfCompleted = this.state.sub('completed').val();
+                var numOfUnCompleted = this.state.sub('uncompleted').val();
+                var route = this.state.sub('route').val();
+                var messages = this.messages;
 
                 return h('#footer', null, [
                     h('span#todo-count', null, [
@@ -46,7 +53,11 @@
                         this.createFilter(route, '#/active', 'Active'),
                         this.createFilter(route, '#/completed', 'Completed'),
                     ]),
-                    h('button#clear-completed', null, 'Clear completed (' + numOfCompleted + ')')
+                    h('button#clear-completed', {
+                        onclick: function () {
+                            messages.trigger('todo:deleteall');
+                        }
+                    }, 'Clear completed (' + numOfCompleted + ')')
                 ]);
             },
 

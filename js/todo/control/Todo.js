@@ -15,20 +15,33 @@
 
             messages: {
                 'todo:create': 'createTodo',
-                'todo:delete': 'deleteTodo',
                 'todo:update': 'updateTodo',
+                'todo:delete': 'deleteTodo',
+                'todo:deleteall': 'deletesAllTodos',
             },
 
             updateTodo: function (state, data) {
-                console.log('[createTodo] Implement Me!', state, data);
+                return state.set('todos', state.sub('todos').set(data.index, data));
             },
 
             deleteTodo: function (state, data) {
-                console.log('[createTodo] Implement Me!', state, data);
+                var todos = state.sub('todos').val();
+                todos.splice(data.index, 1);
+                return state.set('todos', todos);
+            },
+
+            deletesAllTodos: function (state, data) {
+                var allTodos = state.sub('todos').val();
+                var activeTodos = alchemy.each(allTodos, function (todo) {
+                    if (!todo.completed) {
+                        return todo;
+                    }
+                });
+                return state.set('todos', activeTodos);
             },
 
             createTodo: function (state, data) {
-                var todos = [].concat(state.get('todos'));
+                var todos = state.sub('todos').val();
                 todos.push({
                     id: alchemy.id(),
                     completed: false,
