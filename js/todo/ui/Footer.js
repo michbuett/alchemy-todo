@@ -23,15 +23,9 @@
             },
 
             updateState: function (appState) {
-                var todos = appState.sub('todos').val();
-                var numOfCompleted = todos.reduce(function (num, todo) {
-                    return todo.completed ? num + 1 : num;
-                }, 0);
-                var numOfUnCompleted = todos.length - numOfCompleted;
-
                 this.state = this.state.set({
-                    completed: numOfCompleted,
-                    uncompleted: numOfUnCompleted,
+                    completed: appState.val('completed'),
+                    uncompleted: appState.val('uncompleted'),
                     route: appState.sub('route'),
                 });
             },

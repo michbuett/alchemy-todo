@@ -23,10 +23,25 @@
             render: function () {
                 var h = this.h;
                 var todos =  this.state.sub('todos').val();
+                var hasTodos = this.state.val('all') > 0;
+                var allCompleted = this.state.val('uncompleted') === 0;
+                var messages = this.messages;
 
-                return h('#main', null, [
-                    h('input#toggle-all', {type: 'checkbox'}),
-                    h('label', {htmlFor: 'toggle-all'}, 'Mark all as complete'),
+                return h('#main', {
+                    className: hasTodos ? '' : 'hidden'
+                }, [
+                    h('input#toggle-all', {
+                        type: 'checkbox',
+                        checked: allCompleted,
+                        onchange: function (ev) {
+                            messages.trigger('todo:updateall', {
+                                completed: !allCompleted
+                            });
+                        }
+                    }),
+                    h('label', {
+                        htmlFor: 'toggle-all'
+                    }, 'Mark all as complete'),
                     h('ul#todo-list', null, alchemy.each(todos, this.renderTodo, this))
                 ]);
             },

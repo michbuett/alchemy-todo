@@ -23,17 +23,25 @@
             onLaunch: function () {
                 this.state = alchemy('Immutatio').makeImmutable({
                     route: '#/',
-                    todos: [{
-                        id: 'foo',
-                        text: 'Foo Foo Foo',
-                        editing: false,
-                        completed: false
-                    }, {
-                        id: 'bar',
-                        text: 'Bar Bar Bar',
-                        editing: false,
-                        completed: false
-                    }]
+                    todos: []
+                }, {
+                    all: function () {
+                        return this.val('todos').length;
+                    },
+
+                    completed: function (val) {
+                        var completed = 0;
+                        for (var i = 0, l = val.todos.length; i < l; i++) {
+                            if (val.todos[i].completed) {
+                                completed++;
+                            }
+                        }
+                        return completed;
+                    },
+
+                    uncompleted: function () {
+                        return this.val('all') - this.val('completed');
+                    }
                 });
 
                 this.viewport = alchemy('todo.ui.Viewport').brew({

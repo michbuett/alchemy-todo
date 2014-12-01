@@ -18,10 +18,17 @@
                 'todo:update': 'updateTodo',
                 'todo:delete': 'deleteTodo',
                 'todo:deleteall': 'deletesAllTodos',
+                'todo:updateall': 'updateAllTodos',
             },
 
             updateTodo: function (state, data) {
                 return state.set('todos', state.sub('todos').set(data.index, data));
+            },
+
+            updateAllTodos: function (state, data) {
+                return state.set('todos', state.sub('todos').each(function (todo) {
+                    return todo.set(data);
+                }));
             },
 
             deleteTodo: function (state, data) {
