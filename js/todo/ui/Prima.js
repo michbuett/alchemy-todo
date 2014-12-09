@@ -2,9 +2,6 @@
     'use strict';
 
     var alchemy = require('./../../alchemy');
-    var h = virtualDom.h;
-    var diff = virtualDom.diff;
-    var patch = virtualDom.patch;
 
     /**
      * @class
@@ -14,10 +11,16 @@
         name: 'todo.ui.Prima',
 
         requires: [
+            'vd.virtualDom',
             'alchemy.core.Immutatio',
         ],
 
         overrides: function (_super) {
+            var virtualDom = alchemy('virtualDom');
+            var h = virtualDom.h;
+            var diff = virtualDom.diff;
+            var patch = virtualDom.patch;
+
             return {
                 /** @lends todo.ui.Todo.Prima.prototype */
 

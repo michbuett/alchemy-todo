@@ -6,6 +6,7 @@
     alchemy.heatUp({
         path: {
             'todo': 'js/todo',
+            'vd': 'js/vd',
             'alchemy': 'js/alchemy/lib/'
         },
 
