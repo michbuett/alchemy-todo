@@ -18,7 +18,7 @@
 
             render: function () {
                 var h = this.h;
-                var todos =  this.state.sub('todos').val();
+                var todos =  this.state.val('todos');
                 var hasTodos = this.state.val('all') > 0;
                 var allCompleted = this.state.val('uncompleted') === 0;
                 var messages = this.messages;
@@ -65,7 +65,7 @@
                 }
 
                 return h('li', {
-                    key: todo.id,
+                    id: todo.id,
                     className: cssClass
                 }, [
                     h('div.view', null, [
