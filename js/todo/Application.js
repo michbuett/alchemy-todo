@@ -13,6 +13,7 @@
         extend: 'alchemy.web.Applicatus',
 
         requires: [
+            'todo.modell.State',
             'todo.view.Viewport',
             'todo.controller.Todo',
             'todo.controller.Storage',
@@ -21,29 +22,8 @@
         overrides: {
             /** @lends todo.Application.prototype */
 
-            onLaunch: function () {
-                this.state = alchemy('Immutatio').makeImmutable({
-                    route: '#/',
-                    todos: []
-                }, {
-                    all: function () {
-                        return this.val('todos').length;
-                    },
-
-                    completed: function (val) {
-                        var completed = 0;
-                        for (var i = 0, l = val.todos.length; i < l; i++) {
-                            if (val.todos[i].completed) {
-                                completed++;
-                            }
-                        }
-                        return completed;
-                    },
-
-                    uncompleted: function () {
-                        return this.val('all') - this.val('completed');
-                    }
-                });
+            init: function () {
+                this.state = alchemy('todo.modell.State').createAppState();
 
                 this.viewport = alchemy('todo.view.Viewport').brew({
                     messages: this.messages,
@@ -66,7 +46,15 @@
 
             draw: function (params) {
                 this.viewport.draw(params.state);
-            }
+            },
+
+            finish: function () {
+                this.viewport.dispose();
+                this.viewport = null;
+
+                this.storage.dispose();
+                this.storage = null;
+            },
         }
     });
 }());
