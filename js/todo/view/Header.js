@@ -6,14 +6,14 @@
 
     /**
      * @class
-     * @name todo.ui.Header
+     * @name todo.view.Header
      */
     alchemy.formula.add({
-        name: 'todo.ui.Header',
+        name: 'todo.view.Header',
         extend: 'alchemy.web.Visio',
 
         overrides: {
-            /** @lends todo.ui.Todo.Header */
+            /** @lends todo.view.Todo.Header */
 
             render: function (state) {
                 var h = this.h;

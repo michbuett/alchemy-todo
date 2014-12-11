@@ -13,9 +13,9 @@
         extend: 'alchemy.web.Applicatus',
 
         requires: [
-            'todo.ui.Viewport',
-            'todo.control.Todo',
-            'todo.control.Storage',
+            'todo.view.Viewport',
+            'todo.controller.Todo',
+            'todo.controller.Storage',
         ],
 
         overrides: {
@@ -45,15 +45,14 @@
                     }
                 });
 
-                this.viewport = alchemy('todo.ui.Viewport').brew({
+                this.viewport = alchemy('todo.view.Viewport').brew({
                     messages: this.messages,
                     root: document.getElementById('todoapp'),
                 });
 
-                this.fpsEl = document.getElementById('fps');
-                this.storage = alchemy('todo.control.Storage').brew();
+                this.storage = alchemy('todo.controller.Storage').brew();
 
-                alchemy.each([this.storage, alchemy('todo.control.Todo').brew()], this.wireUp, this);
+                alchemy.each([this.storage, alchemy('todo.controller.Todo').brew()], this.wireUp, this);
             },
 
             update: function (params) {
@@ -67,8 +66,6 @@
 
             draw: function (params) {
                 this.viewport.draw(params.state);
-
-                this.fpsEl.innerHTML = 'FPS: ' + params.fps;
             }
         }
     });

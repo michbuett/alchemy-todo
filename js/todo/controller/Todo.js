@@ -5,13 +5,13 @@
 
     /**
      * @class
-     * @name todo.control.Todo
+     * @name todo.controller.Todo
      */
     alchemy.formula.add({
-        name: 'todo.control.Todo',
+        name: 'todo.controller.Todo',
 
         overrides: {
-            /** @lends todo.control.Todo.prototype */
+            /** @lends todo.controller.Todo.prototype */
 
             messages: {
                 'todo:create': 'createTodo',

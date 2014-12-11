@@ -5,14 +5,14 @@
 
     /**
      * @class
-     * @name todo.ui.Footer
+     * @name todo.view.Footer
      */
     alchemy.formula.add({
-        name: 'todo.ui.Footer',
+        name: 'todo.view.Footer',
         extend: 'alchemy.web.Visio',
 
         overrides: {
-            /** @lends todo.ui.Footer.prototype */
+            /** @lends todo.view.Footer.prototype */
 
             selector: '#footer',
 

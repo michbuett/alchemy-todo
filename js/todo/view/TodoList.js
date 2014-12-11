@@ -5,14 +5,14 @@
 
     /**
      * @class
-     * @name todo.ui.TodoList
+     * @name todo.view.TodoList
      */
     alchemy.formula.add({
-        name: 'todo.ui.TodoList',
+        name: 'todo.view.TodoList',
         extend: 'alchemy.web.Visio',
 
         overrides: {
-            /** @lends todo.ui.TodoList.prototype */
+            /** @lends todo.view.TodoList.prototype */
 
             selector: '#main',
 

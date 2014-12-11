@@ -6,13 +6,13 @@
 
     /**
      * @class
-     * @name todo.control.Storage
+     * @name todo.controller.Storage
      */
     alchemy.formula.add({
-        name: 'todo.control.Storage',
+        name: 'todo.controller.Storage',
 
         overrides: {
-            /** @lends todo.control.Storage.prototype */
+            /** @lends todo.controller.Storage.prototype */
 
             messages: {
                 'app:start': 'onAppStart',

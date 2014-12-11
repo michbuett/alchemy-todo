@@ -5,30 +5,30 @@
 
     /**
      * @class
-     * @name todo.ui.Viewport
+     * @name todo.view.Viewport
      */
     alchemy.formula.add({
-        name: 'todo.ui.Viewport',
+        name: 'todo.view.Viewport',
         extend: 'alchemy.web.Visio',
 
         requires: [
-            'todo.ui.Header',
-            'todo.ui.TodoList',
-            'todo.ui.Footer',
+            'todo.view.Header',
+            'todo.view.TodoList',
+            'todo.view.Footer',
         ],
 
         overrides: {
-            /** @lends todo.ui.Viewport.prototype */
+            /** @lends todo.view.Viewport.prototype */
 
             init: function () {
                 this.subs = {
-                    header: alchemy('todo.ui.Header').brew({
+                    header: alchemy('todo.view.Header').brew({
                         messages: this.messages
                     }),
-                    todos: alchemy('todo.ui.TodoList').brew({
+                    todos: alchemy('todo.view.TodoList').brew({
                         messages: this.messages
                     }),
-                    footer: alchemy('todo.ui.Footer').brew({
+                    footer: alchemy('todo.view.Footer').brew({
                         messages: this.messages
                     }),
                 };
