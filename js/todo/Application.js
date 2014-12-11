@@ -14,7 +14,9 @@
 
         requires: [
             'todo.ui.Viewport',
-            'todo.control.Todo'
+
+            'todo.control.Todo',
+            'todo.control.Storage',
         ],
 
         overrides: {
@@ -50,26 +52,37 @@
                 });
 
                 this.fpsEl = document.getElementById('fps');
+                this.storage = alchemy('todo.control.Storage').brew();
 
-                var controller = alchemy('todo.control.Todo').brew();
+                alchemy.each([this.storage, alchemy('todo.control.Todo').brew()], this.wireMessages, this);
+            },
+
+            wireMessages: function (controller) {
+                if (!controller || !controller.messages) {
+                    return;
+                }
+
                 alchemy.each(controller.messages, function (fnName, message) {
                     this.messages.on(message, function (data) {
                         var fn = controller[fnName];
-                        this.state = fn.call(null, this.state, data);
+                        this.state = fn.call(controller, this.state, data);
                     }, this);
                 }, this);
             },
 
-
             update: function (params) {
                 var route = window.location.hash || '#/';
-                return params.state.set('route', route);
+                var state = params.state.set('route', route);
+
+                this.storage.update(state);
+
+                return state;
             },
 
             draw: function (params) {
                 this.viewport.draw(params.state);
 
-                this.fpsEl.innerHTML = params.fps;
+                this.fpsEl.innerHTML = 'FPS: ' + params.fps;
             }
         }
     });
