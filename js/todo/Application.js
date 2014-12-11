@@ -14,7 +14,6 @@
 
         requires: [
             'todo.ui.Viewport',
-
             'todo.control.Todo',
             'todo.control.Storage',
         ],
@@ -54,20 +53,7 @@
                 this.fpsEl = document.getElementById('fps');
                 this.storage = alchemy('todo.control.Storage').brew();
 
-                alchemy.each([this.storage, alchemy('todo.control.Todo').brew()], this.wireMessages, this);
-            },
-
-            wireMessages: function (controller) {
-                if (!controller || !controller.messages) {
-                    return;
-                }
-
-                alchemy.each(controller.messages, function (fnName, message) {
-                    this.messages.on(message, function (data) {
-                        var fn = controller[fnName];
-                        this.state = fn.call(controller, this.state, data);
-                    }, this);
-                }, this);
+                alchemy.each([this.storage, alchemy('todo.control.Todo').brew()], this.wireUp, this);
             },
 
             update: function (params) {
