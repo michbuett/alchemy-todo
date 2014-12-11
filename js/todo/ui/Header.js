@@ -10,7 +10,7 @@
      */
     alchemy.formula.add({
         name: 'todo.ui.Header',
-        extend: 'todo.ui.Prima',
+        extend: 'alchemy.web.Visio',
 
         overrides: {
             /** @lends todo.ui.Todo.Header */

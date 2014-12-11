@@ -9,7 +9,7 @@
      */
     alchemy.formula.add({
         name: 'todo.ui.Footer',
-        extend: 'todo.ui.Prima',
+        extend: 'alchemy.web.Visio',
 
         overrides: {
             /** @lends todo.ui.Footer.prototype */

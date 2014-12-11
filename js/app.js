@@ -7,7 +7,7 @@
         path: {
             'todo': 'js/todo',
             'vd': 'js/vd',
-            'alchemy': 'js/alchemy/lib/'
+            'alchemy': 'js/alchemy/lib'
         },
 
         require: ['todo.Application'],

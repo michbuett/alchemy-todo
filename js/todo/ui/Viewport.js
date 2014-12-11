@@ -9,7 +9,7 @@
      */
     alchemy.formula.add({
         name: 'todo.ui.Viewport',
-        extend: 'todo.ui.Prima',
+        extend: 'alchemy.web.Visio',
 
         requires: [
             'todo.ui.Header',

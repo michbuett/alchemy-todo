@@ -9,11 +9,7 @@
      */
     alchemy.formula.add({
         name: 'todo.ui.TodoList',
-        extend: 'todo.ui.Prima',
-
-        requires: [
-            'todo.ui.Todo'
-        ],
+        extend: 'alchemy.web.Visio',
 
         overrides: {
             /** @lends todo.ui.TodoList.prototype */
