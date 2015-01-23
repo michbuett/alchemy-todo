@@ -13,6 +13,7 @@
         extend: 'alchemy.web.Applicatus',
 
         requires: [
+            'alchemy.web.Delegatus',
             'todo.modell.State',
             'todo.view.Viewport',
             'todo.controller.Todo',
@@ -23,14 +24,14 @@
             /** @lends todo.Application.prototype */
 
             init: function () {
+                this.delegator = alchemy('alchemy.web.Delegatus').brew();
                 this.state = alchemy('todo.modell.State').createAppState();
-
+                this.storage = alchemy('todo.controller.Storage').brew();
                 this.viewport = alchemy('todo.view.Viewport').brew({
+                    delegator: this.delegator,
                     messages: this.messages,
                     root: document.getElementById('todoapp'),
                 });
-
-                this.storage = alchemy('todo.controller.Storage').brew();
 
                 alchemy.each([this.storage, alchemy('todo.controller.Todo').brew()], this.wireUp, this);
             },
@@ -49,11 +50,10 @@
             },
 
             finish: function () {
-                this.viewport.dispose();
-                this.viewport = null;
-
-                this.storage.dispose();
-                this.storage = null;
+                alchemy.each(['delegator', 'viewport', 'storage'], function (prop) {
+                    this[prop].dispose();
+                    this[prop] = null;
+                }, this);
             },
         }
     });

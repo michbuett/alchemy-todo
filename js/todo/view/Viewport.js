@@ -21,16 +21,15 @@
             /** @lends todo.view.Viewport.prototype */
 
             init: function () {
+                var cfg = {
+                    messages: this.messages,
+                    delegator: this.delegator,
+                };
+
                 this.subs = {
-                    header: alchemy('todo.view.Header').brew({
-                        messages: this.messages
-                    }),
-                    todos: alchemy('todo.view.TodoList').brew({
-                        messages: this.messages
-                    }),
-                    footer: alchemy('todo.view.Footer').brew({
-                        messages: this.messages
-                    }),
+                    header: alchemy('todo.view.Header').brew(cfg),
+                    todos: alchemy('todo.view.TodoList').brew(cfg),
+                    footer: alchemy('todo.view.Footer').brew(cfg),
                 };
             },
 

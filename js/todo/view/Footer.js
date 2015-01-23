@@ -22,6 +22,10 @@
                 route: ''
             },
 
+            events: {
+                'click button#clear-completed': 'onClickClearAll',
+            },
+
             updateState: function (appState) {
                 this.state = this.state.set({
                     completed: appState.val('completed'),
@@ -35,7 +39,6 @@
                 var numOfCompleted = this.state.sub('completed').val();
                 var numOfUnCompleted = this.state.sub('uncompleted').val();
                 var route = this.state.sub('route').val();
-                var messages = this.messages;
 
                 return h('#footer', null, [
                     h('span#todo-count', null, [
@@ -47,12 +50,12 @@
                         this.createFilter(route, '#/active', 'Active'),
                         this.createFilter(route, '#/completed', 'Completed'),
                     ]),
-                    h('button#clear-completed', {
-                        onclick: function () {
-                            messages.trigger('todo:deleteall');
-                        }
-                    }, 'Clear completed (' + numOfCompleted + ')')
+                    h('button#clear-completed', 'Clear completed (' + numOfCompleted + ')')
                 ]);
+            },
+
+            onClickClearAll: function () {
+                this.messages.trigger('todo:deleteall');
             },
 
             createFilter: function (currentRoute, filterRoute, text) {
